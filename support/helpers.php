@@ -82,6 +82,22 @@ function json($data, $options = JSON_UNESCAPED_UNICODE)
     return new Response(200, ['Content-Type' => 'application/json'], json_encode($data, $options));
 }
 
+
+/**
+ * @param int $code 错误码
+ * @param string $msg 提示信息
+ * @param array|null $data 承载数据
+ * @return Response
+ */
+function responseData(int $code, string $msg, ?array $data): Response
+{
+    return json([
+        'code' => $code,
+        'msg' => $msg,
+        'data' => $data,
+    ]);
+}
+
 /**
  * @param $xml
  * @return Response
@@ -216,7 +232,8 @@ function locale(string $locale = null)
  * @param $worker
  * @param $class
  */
-function worker_bind($worker, $class) {
+function worker_bind($worker, $class)
+{
     $callback_map = [
         'onConnect',
         'onMessage',
@@ -240,7 +257,8 @@ function worker_bind($worker, $class) {
 /**
  * @return int
  */
-function cpu_count() {
+function cpu_count()
+{
     // Windows does not support the number of processes setting.
     if (\DIRECTORY_SEPARATOR === '\\') {
         return 1;

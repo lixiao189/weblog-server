@@ -14,6 +14,12 @@
 
 use Webman\Route;
 
+Route::group('/user', function () {
+    Route::post('/login', [app\controller\User::class, 'login']);
+    Route::post('/registerUser', [app\controller\User::class, 'registerUser']);
+});
+
+Route::disableDefaultRoute(); // 关闭默认路由
 
 
 
