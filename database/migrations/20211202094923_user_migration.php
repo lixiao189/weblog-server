@@ -29,6 +29,10 @@ final class UserMigration extends AbstractMigration
             'password', 'string', [
                 'comment' => '密码'
             ]
+        )->addColumn(
+            'identity', 'boolean', [
+                'comment' => '用户身份 0 为普通用户 1 为管理员'
+            ]
         )->addIndex(
             ['username'],
             ['unique' => true],

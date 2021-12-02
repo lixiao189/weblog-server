@@ -20,8 +20,3 @@ Route::group('/user', function () {
 });
 
 Route::disableDefaultRoute(); // 关闭默认路由
-
-
-
-
-

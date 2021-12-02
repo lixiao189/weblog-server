@@ -31,7 +31,8 @@
     "illuminate/database": "^8.0",
     "robmorgan/phinx": "^0.12.9",
     "ext-json": "*",
-    "ext-pdo": "*"
+    "ext-pdo": "*",
+    "illuminate/events": "^8.74"
   },
   "suggest": {
     "ext-event": "For better performance. "
