@@ -28,7 +28,8 @@
     "workerman/webman-framework": "^1.0",
     "monolog/monolog": "^2.0",
     "vlucas/phpdotenv": "^5.4",
-    "illuminate/database": "^8.0"
+    "illuminate/database": "^8.0",
+    "robmorgan/phinx": "^0.12.9"
   },
   "suggest": {
     "ext-event": "For better performance. "

@@ -12,4 +12,23 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
-return [];
+return [
+    'default' => 'mysql',
+
+    'connections' => [
+        'mysql' => [
+            'driver' => 'mysql',
+            'host' => $_ENV["db_host"],
+            'port' => $_ENV["db_port"],
+            'database' => $_ENV["db_database"],
+            'username' => $_ENV["db_username"],
+            'password' => $_ENV["db_password"],
+            'unix_socket' => '',
+            'charset' => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix' => '',
+            'strict' => true,
+            'engine' => null,
+        ],
+    ],
+];

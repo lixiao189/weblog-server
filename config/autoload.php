@@ -14,6 +14,7 @@
 
 return [
     'files' => [
-        base_path() . '/app/functions.php'
+        base_path() . '/app/functions.php',
+        base_path() . '/app/init.php'
     ]
 ];
