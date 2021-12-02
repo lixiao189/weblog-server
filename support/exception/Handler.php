@@ -13,6 +13,7 @@
  */
 namespace support\exception;
 
+use support\exception\user\DuplicateUserException;
 use Webman\Http\Request;
 use Webman\Http\Response;
 use Throwable;
@@ -24,8 +25,13 @@ use Webman\Exception\ExceptionHandler;
  */
 class Handler extends ExceptionHandler
 {
+    private array $customExceptionMsg = [
+        "用户注册过了"
+    ];
+
     public $dontReport = [
         BusinessException::class,
+        DuplicateUserException::class,
     ];
 
     public function report(Throwable $exception)
@@ -35,6 +41,9 @@ class Handler extends ExceptionHandler
 
     public function render(Request $request, Throwable $exception) : Response
     {
+        if (in_array($exception->getMessage(), $this->customExceptionMsg)) {
+            return responseData(1, $exception->getMessage(), null);
+        }
         return parent::render($request, $exception);
     }
 
