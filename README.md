@@ -8,9 +8,11 @@
 
 ## 如何开始 🤔️
 
+**添加数据表**
+
 创建对应名称数据库 (数据库名的设置在 `.env` 文件中)
 
-执行一下命令创建表
+执行以下命令创建表
 ```bash
 vendor/bin/phinx migrate -e [环境]
 ```
@@ -18,15 +20,19 @@ vendor/bin/phinx migrate -e [环境]
 phinx.php (在项目根目录下) 中的 `environments.production` 和 `environments.devleopment` 
 字段存储的配置
 
-安装依赖
+**安装依赖**
+
 ```bash
 composer install 
 ```
 
-创建环境变量文件
+**创建环境变量文件**
+
 ```bash
 cp example.env .env
 ```
+
+**项目启动**
 
 由于本项目采用 PHP 脚本模式运行，启动整个项目只需要在根目录下执行 
 ```bash
