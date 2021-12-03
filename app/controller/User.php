@@ -50,6 +50,10 @@ class User
         $username = $body['username'];
         $password = $body['password'];
 
+        // 判断用户名长度
+        if (strlen($username) < 4 || strlen($username) > 16 || strlen($password) < 7 || strlen($password) > 20)
+            return responseData(2, "参数错误", null);
+
         try {
             Db::table('users')->insert([
                 "username" => $username,
