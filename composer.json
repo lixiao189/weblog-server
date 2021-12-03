@@ -32,7 +32,8 @@
     "robmorgan/phinx": "^0.12.9",
     "ext-json": "*",
     "ext-pdo": "*",
-    "illuminate/events": "^8.74"
+    "illuminate/events": "^8.74",
+    "ext-simplexml": "*"
   },
   "suggest": {
     "ext-event": "For better performance. "
