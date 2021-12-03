@@ -271,3 +271,7 @@ function cpu_count()
     $count = (int)$count > 0 ? (int)$count : 4;
     return $count;
 }
+
+function NotLoginResponse() : Response {
+    return responseData(255, '尚未登录', null);
+}
