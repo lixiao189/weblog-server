@@ -26,7 +26,7 @@ use Webman\Exception\ExceptionHandler;
 class Handler extends ExceptionHandler
 {
     private array $customExceptionMsg = [
-        "用户注册过了"
+        "该用户名注册过了"
     ];
 
     public $dontReport = [

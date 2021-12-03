@@ -15,11 +15,13 @@
 use app\middleware\CheckAuth;
 use Webman\Route;
 
-Route::group('/user', function () {
-    Route::post('/login', [app\controller\User::class, 'login']);
-    Route::post('/register', [app\controller\User::class, 'registerUser']);
-    Route::get('/info', [app\controller\User::class, 'getInfo'])->middleware([CheckAuth::class]);
-    Route::get('/update', [app\controller\User::class, 'update'])->middleware([CheckAuth::class]);
+Route::group('/api', function () {
+    Route::group('/user', function () {
+        Route::post('/login', [app\controller\User::class, 'login']);
+        Route::post('/register', [app\controller\User::class, 'registerUser']);
+        Route::get('/info', [app\controller\User::class, 'getInfo'])->middleware([CheckAuth::class]);
+        Route::get('/update', [app\controller\User::class, 'update'])->middleware([CheckAuth::class]);
+    });
 });
 
 Route::disableDefaultRoute(); // 关闭默认路由
