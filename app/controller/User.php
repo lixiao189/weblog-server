@@ -83,9 +83,10 @@ class User
         $user = Db::table('users')->where('id', '=', $id)->first();
 
         return responseData(0, '查询成功', [
-            "username" => $user->username,
-            "password" => $user->password,
-            "identity" => $user->identity == true,
+            'id' => $user->id,
+            'username' => $user->username,
+            'password' => $user->password,
+            'identity' => $user->identity == true,
         ]);
     }
 
