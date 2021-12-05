@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 use Phinx\Migration\AbstractMigration;
 
-final class UserMigration extends AbstractMigration
+final class PostsMigration extends AbstractMigration
 {
     /**
      * Change Method.
@@ -18,24 +18,26 @@ final class UserMigration extends AbstractMigration
      */
     public function change(): void
     {
-        $table = $this->table('users'); // 创建数据表
+        $table = $this->table('posts');
 
-        // 添加列
         $table->addColumn(
-            'username', 'string', [
-                'comment' => '用户名'
+            'sender_id', 'integer', [
+                'comment' => '发送人的 ID'
             ]
         )->addColumn(
-            'password', 'string', [
-                'comment' => '密码'
+            'send_name', 'string', [
+                'comment' => '发送人的用户名',
             ]
         )->addColumn(
-            'administrator', 'boolean', [
-                'comment' => '用户身份 0 为普通用户 1 为管理员'
+            'title', 'string', [
+                'comment' => '帖子的标题',
             ]
-        )->addIndex(
-            ['username'],
-            ['unique' => true],
+        )->addColumn(
+            'body', 'string', [
+                'comment' => '帖子的内容',
+            ]
+        )->addTimestamps( // 添加 created_at 时间戳
+            null, false
         );
 
         $table->create();
