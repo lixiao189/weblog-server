@@ -11,8 +11,10 @@ class Post
     public function createPost(Request $request): Response
     {
         $body = json_decode($request->rawBody(), true);
-        $sender_id = $body['sender_id'];
-        $sender_name = $body['sender_name'];
+        $session = $request->session();
+
+        $sender_id = $session->get('id');
+        $sender_name = $session->get('username');
         $title = $body['title'];
         $content = $body['content'];
 

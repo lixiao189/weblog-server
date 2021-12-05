@@ -26,7 +26,7 @@ Route::group('/api', function () {
 
     // 发送帖子 API
     Route::group('/post', function () {
-        Route::post('/create', [app\controller\Post::class, 'createPost']);
+        Route::post('/create', [app\controller\Post::class, 'createPost'])->middleware([CheckAuth::class]);
     });
 });
 
