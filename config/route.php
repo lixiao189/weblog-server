@@ -25,7 +25,9 @@ Route::group('/api', function () {
     });
 
     // 发送帖子 API
-
+    Route::group('/post', function () {
+        Route::post('/create', [app\controller\Post::class, 'createPost']);
+    });
 });
 
 Route::disableDefaultRoute(); // 关闭默认路由
