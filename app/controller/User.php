@@ -101,6 +101,7 @@ class User
     }
 
     /**
+     * 退出登录
      * @param Request $request 请求数据
      * @return Response 响应数据
      */
