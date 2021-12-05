@@ -18,6 +18,28 @@ final class CommentsMigration extends AbstractMigration
      */
     public function change(): void
     {
+        $table = $this->table('comments');
 
+        $table->addColumn(
+            'post_id', 'integer', [
+                'comment' => '所评论的帖子的 ID'
+            ]
+        )->addColumn(
+            'content', 'string', [
+                'comment' => '帖子的评论内容'
+            ]
+        )->addColumn(
+            'sender_id', 'integer', [
+                'comment' => '该评论的发送者 id'
+            ]
+        )->addColumn(
+            'sender_name', 'string', [
+                'comment' => '该评论的的发送者 username'
+            ]
+        )->addTimestamps(
+            null, false
+        );
+
+        $table->create();
     }
 }

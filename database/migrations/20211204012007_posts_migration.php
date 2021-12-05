@@ -25,7 +25,7 @@ final class PostsMigration extends AbstractMigration
                 'comment' => '发送人的 ID'
             ]
         )->addColumn(
-            'send_name', 'string', [
+            'sender_name', 'string', [
                 'comment' => '发送人的用户名',
             ]
         )->addColumn(
@@ -33,7 +33,7 @@ final class PostsMigration extends AbstractMigration
                 'comment' => '帖子的标题',
             ]
         )->addColumn(
-            'body', 'string', [
+            'content', 'string', [
                 'comment' => '帖子的内容',
             ]
         )->addTimestamps( // 添加 created_at 时间戳
