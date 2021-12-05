@@ -32,7 +32,7 @@ class User
             $session = $request->session();
             $session->set('id', $result->id);
             $session->set('username', $username);
-            $session->set('identity', $result->identity);
+            $session->set('administrator', $result->administrator);
 
             return responseData(0, '登录成功', null);
         }
@@ -58,7 +58,7 @@ class User
             Db::table('users')->insert([
                 "username" => $username,
                 "password" => $password,
-                "identity" => false,
+                "administrator" => false,
             ]);
         } catch (PDOException $exception) {
             if (strpos($exception->getMessage(), "Duplicate entry"))
@@ -86,7 +86,7 @@ class User
             'id' => $user->id,
             'username' => $user->username,
             'password' => $user->password,
-            'identity' => $user->identity == true,
+            'administrator' => $user->administrator == true,
         ]);
     }
 
