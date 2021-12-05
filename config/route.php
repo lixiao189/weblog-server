@@ -22,6 +22,7 @@ Route::group('/api', function () {
         Route::post('/register', [app\controller\User::class, 'registerUser']);
         Route::get('/info', [app\controller\User::class, 'getInfo'])->middleware([CheckAuth::class]);
         Route::get('/update', [app\controller\User::class, 'update'])->middleware([CheckAuth::class]);
+        Route::get('/logout', [app\controller\User::class, 'logout'])->middleware([CheckAuth::class]);
     });
 
     // 发送帖子 API

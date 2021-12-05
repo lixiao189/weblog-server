@@ -85,7 +85,6 @@ class User
         return responseData(0, '查询成功', [
             'id' => $user->id,
             'username' => $user->username,
-            'password' => $user->password,
             'administrator' => $user->administrator == true,
         ]);
     }
@@ -99,5 +98,17 @@ class User
     public function update(Request $request): Response
     {
         return responseData(0, '', null);
+    }
+
+    /**
+     * @param Request $request 请求数据
+     * @return Response 响应数据
+     */
+    public function logout(Request $request): Response
+    {
+        $session = $request->session();
+        $session->flush();
+
+        return responseData(0, '删除成功', null);
     }
 }
