@@ -46,6 +46,7 @@ class Post
                 'title' => $result->title,
                 'content' => $result->content,
                 'created_at' => $result->created_at,
+                // TODO 获取帖子的评论和二级评论
             ]);
         }
     }
