@@ -25,7 +25,7 @@ Route::group('/api', function () {
         Route::get('/logout', [app\controller\User::class, 'logout'])->middleware([CheckAuth::class]);
     });
 
-    // 发送帖子 API
+    // 帖子接口 API
     Route::group('/post', function () {
         Route::post('/create', [app\controller\Post::class, 'createPost'])->middleware([CheckAuth::class]);
         Route::get('/{id}', [app\controller\Post::class, 'getPost'])->middleware([CheckAuth::class]);
