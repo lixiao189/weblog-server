@@ -29,6 +29,7 @@ Route::group('/api', function () {
     Route::group('/post', function () {
         Route::post('/create', [app\controller\Post::class, 'createPost'])->middleware([CheckAuth::class]);
         Route::get('/{id}', [app\controller\Post::class, 'getPost'])->middleware([CheckAuth::class]);
+        Route::post('/list/{page}', [app\controller\Post::class, 'getPostList']);
     });
 });
 

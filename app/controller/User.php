@@ -51,7 +51,7 @@ class User
         $password = $body['password'];
 
         // 判断用户名长度
-        if (strlen($username) < 4 || strlen($username) > 16 || strlen($password) < 7 || strlen($password) > 20)
+        if (iconv_strlen($username) < 4 || iconv_strlen($username) > 16 || iconv_strlen($password) < 7 || iconv_strlen($password) > 20)
             return responseData(2, "参数错误", null);
 
         try {
