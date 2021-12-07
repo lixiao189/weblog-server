@@ -35,6 +35,7 @@ final class PostsMigration extends AbstractMigration
         )->addColumn(
             'content', 'string', [
                 'comment' => '帖子的内容',
+                'limit' => 1000,
             ]
         )->addTimestamps( // 添加 created_at 时间戳
             null, false
