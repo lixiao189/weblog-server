@@ -92,7 +92,7 @@ class Post
         }
 
         if (sizeof($data) == 0) {
-            return responseData(0, '没有结果', null);
+            return responseData(2, '没有结果', null);
         } else {
             return responseData(0, '获取成功', $data);
         }
