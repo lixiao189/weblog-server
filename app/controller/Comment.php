@@ -2,7 +2,7 @@
 
 namespace app\controller;
 
-class Reply
+class Comment
 {
 
 }
