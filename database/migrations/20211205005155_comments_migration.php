@@ -36,6 +36,14 @@ final class CommentsMigration extends AbstractMigration
             'sender_name', 'string', [
                 'comment' => '该评论的的发送者 username'
             ]
+        )->addColumn(
+            'at_id', 'integer', [
+                'comment' => '被 At 的用户的 ID',
+            ]
+        )->addColumn(
+            'at_name', 'string', [
+                'comment' => '被 At 的用户的用户名'
+            ]
         )->addTimestamps(
             null, false
         );
