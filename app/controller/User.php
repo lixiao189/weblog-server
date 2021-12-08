@@ -76,17 +76,33 @@ class User
      */
     public function getInfo(Request $request): Response
     {
-        $session = $request->session();
-        $id = $session->get('id');
+        $body = json_decode($request->rawBody(), true);
 
-        // 查找用户信息
-        $user = Db::table('users')->where('id', '=', $id)->first();
+        if ($body['type'] == 'user') {
+            // 如果是查询用户自己的信息 使用 session 查找
+            $session = $request->session();
+            $id = $session->get('id');
+            if (!isset($id)) // 如果没有登录
+                return NotLoginResponse();
+            // 查找用户信息
+            $user = Db::table('users')->where('id', '=', $id)->first();
 
-        return responseData(0, '查询成功', [
-            'id' => $user->id,
-            'username' => $user->username,
-            'administrator' => $user->administrator == true,
-        ]);
+            return responseData(0, '查询成功', [
+                'id' => $user->id,
+                'username' => $user->username,
+                'administrator' => $user->administrator == true,
+            ]);
+        } else if ($body['type'] == 'other') { // 查询其他用户信息
+            $id = $body['id'];
+            $user = Db::table('users')->where('id', '=', $id)->first();
+
+            return responseData(0, '查询成功', [
+                'id' => $user->id,
+                'username' => $user->username,
+            ]);
+        } else {
+            return responseData(1, '参数错误', null);
+        }
     }
 
 

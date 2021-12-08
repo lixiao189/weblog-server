@@ -20,7 +20,7 @@ Route::group('/api', function () {
     Route::group('/user', function () {
         Route::post('/login', [app\controller\User::class, 'login']);
         Route::post('/register', [app\controller\User::class, 'registerUser']);
-        Route::get('/info', [app\controller\User::class, 'getInfo'])->middleware([CheckAuth::class]);
+        Route::post('/info', [app\controller\User::class, 'getInfo']);
         Route::get('/update', [app\controller\User::class, 'update'])->middleware([CheckAuth::class]);
         Route::get('/logout', [app\controller\User::class, 'logout'])->middleware([CheckAuth::class]);
     });
