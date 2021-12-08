@@ -53,9 +53,6 @@ class Post
      */
     public function getPostList(Request $request, string $page): Response
     {
-        // 处理 session
-        $session = $request->session();
-        $username = $session->get('username');
         // 解析传输的 json 数据
         $body = json_decode($request->rawBody(), true);
         $page_num = intval($page);
@@ -63,14 +60,11 @@ class Post
         if ($body['type'] == 'all') {  // 获取所有的帖子
             $posts = Db::table('posts')->offset(($page_num - 1) * 20)->limit(20)->get();
         } else if ($body['type'] == 'user') { // 仅仅获取用户自己的帖子
-            if (!isset($username)) {
-                return NotLoginResponse();
-            } else {
-                $posts = Db::table('posts')->where('sender_name', '=', $username)->offset(($page_num - 1) * 20)->limit(20)->get();
-            }
+            $id = $body['id'];
+            $posts = Db::table('posts')->where('sender_id', '=', $id)->offset(($page_num - 1) * 20)->limit(20)->get();
         }
 
-        if (!isset($posts)) { // 没有查询到结果
+        if (!isset($posts)) { // 因为参数错误没有查询到结果
             return responseData(1, '参数错误', null);
         }
 
