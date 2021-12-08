@@ -36,6 +36,7 @@ class Post
             return responseData(2, '帖子不存在', null);
         } else {
             return responseData(0, '获取成功', [
+                'sender_id' => $result->sender_id,
                 'sender_name' => $result->sender_name,
                 'title' => $result->title,
                 'content' => $result->content,
