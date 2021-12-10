@@ -113,7 +113,19 @@ class User
      */
     public function update(Request $request): Response
     {
-        return responseData(0, '', null);
+        // 解析请求数据
+        $body = json_decode($request->rawBody(), true);
+
+        $password = $body['password'];
+
+        if (iconv_strlen($password) < 7 || iconv_strlen($password) > 20)
+            return responseData(1, '参数错误', null);
+
+        Db::table('users')->update([
+           'password' => $password,
+        ]);
+
+        return responseData(0, '修改成功', null);
     }
 
     /**
