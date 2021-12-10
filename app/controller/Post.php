@@ -89,14 +89,20 @@ class Post
 
     public function deletePost(Request $request, int $id): Response
     {
-        // TODO 权限校验
-        $rows_affected = Db::table('posts')->delete($id);
+        // session 信息解析
+        $session = $request->session();
+        $sender_id = intval($session->get('id'));
 
-        if ($rows_affected == 0) {
+        $result = Db::table('posts')->where('id', '=', $id)->first();
+        if (!isset($result)) {
             return responseData(1, '数据不存在', null);
-        } else {
-            return responseData(0, '删除成功', null);
+        } else if ($result->sender_id !== $sender_id) {
+            return responseData(2, '只能删除自己的帖子', null);
         }
+
+        Db::table('posts')->delete($id);
+
+        return responseData(0, '删除成功', null);
     }
 
     public function modifyPost(Request $request): Response
@@ -120,8 +126,8 @@ class Post
         }
 
         Db::table('posts')->where('id', '=', $id)->update([
-           'title'=> $title,
-           'content' => $content,
+            'title' => $title,
+            'content' => $content,
         ]);
 
         return responseData(0, '修改成功', null);
