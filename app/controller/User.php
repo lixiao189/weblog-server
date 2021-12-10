@@ -115,13 +115,16 @@ class User
     {
         // 解析请求数据
         $body = json_decode($request->rawBody(), true);
-
         $password = $body['password'];
+
+        // 解析 session 数据
+        $session = $request->session();
+        $id = $session->get('id');
 
         if (iconv_strlen($password) < 7 || iconv_strlen($password) > 20)
             return responseData(1, '参数错误', null);
 
-        Db::table('users')->update([
+        Db::table('users')->where('id', '=', $id)->update([
            'password' => $password,
         ]);
 
