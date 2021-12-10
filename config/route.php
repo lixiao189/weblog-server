@@ -31,6 +31,7 @@ Route::group('/api', function () {
         Route::get('/{id}', [app\controller\Post::class, 'getPost']);
         Route::get('/delete/{id}', [app\controller\Post::class, 'deletePost']);
         Route::post('/list/{page}', [app\controller\Post::class, 'getPostList']);
+        Route::post('/modify', [app\controller\Post::class, 'modifyPost'])->middleware([CheckAuth::class]);
 
         // 帖子回复接口 API
         Route::group('/comment', function () {

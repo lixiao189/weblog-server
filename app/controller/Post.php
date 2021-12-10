@@ -89,6 +89,7 @@ class Post
 
     public function deletePost(Request $request, int $id): Response
     {
+        // TODO 权限校验
         $rows_affected = Db::table('posts')->delete($id);
 
         if ($rows_affected == 0) {
@@ -96,5 +97,33 @@ class Post
         } else {
             return responseData(0, '删除成功', null);
         }
+    }
+
+    public function modifyPost(Request $request): Response
+    {
+        // 解析传输的 json 数据
+        $body = json_decode($request->rawBody(), true);
+        $id = $body['id']; // 帖子的 ID
+        $title = $body['title'];
+        $content = $body['content'];
+
+        // 解析 session 数据
+        $session = $request->session();
+        $user_id = intval($session->get('id'));
+
+        $result = Db::table('posts')->where('id', '=', $id)->first();
+
+        if (!isset($result)) {
+            return responseData(1, '帖子不存在', null);
+        } else if ($result->sender_id !== $user_id) {
+            return responseData(2, '只能修改自己的帖子', null);
+        }
+
+        Db::table('posts')->where('id', '=', $id)->update([
+           'title'=> $title,
+           'content' => $content,
+        ]);
+
+        return responseData(0, '修改成功', null);
     }
 }
