@@ -34,7 +34,7 @@ Route::group('/api', function () {
         // 帖子回复接口 API
         Route::group('/comment', function () {
             Route::post('/create', [app\controller\Comment::class, 'createComment'])->middleware([CheckAuth::class]);
-            Route::get('/list', [app\controller\Comment::class, 'getCommentList']);
+            Route::get('/{postID}/{page}', [app\controller\Comment::class, 'getCommentList']);
         });
     });
 });

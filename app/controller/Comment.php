@@ -43,14 +43,33 @@ class Comment
     /**
      * 获取评论列表
      * @param Request $request
+     * @param int $postID
+     * @param int $page
      * @return Response
      */
-    function getCommentList(Request $request): Response
+    function getCommentList(Request $request, int $postID, int $page): Response
     {
-        $body = json_decode($request->rawBody(), true);
+        $resultIterator = Db::table('comments')->where('post_id', '=', $postID)
+            ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
 
+        $respData = array();
+        foreach ($resultIterator as $comment) {
+            array_push($respData, [
+                'id' => $comment->id,
+                'post_id' => $comment->post_id,
+                'content' => $comment->content,
+                'sender_id' => $comment->sender_id,
+                'sender_name' => $comment->sender_name,
+                'at_id' => $comment->at_id,
+                'at_name' => $comment->at_name,
+                'created_at' => $comment->created_at,
+            ]);
+        }
 
-
-        return responseData(0, '获取成功', null);
+        if (sizeof($respData) == 0) {
+            return responseData(2, '没有结果', null);
+        } else {
+            return responseData(0, '获取成功', $respData);
+        }
     }
 }
