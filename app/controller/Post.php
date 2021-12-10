@@ -86,4 +86,15 @@ class Post
             return responseData(0, '获取成功', $data);
         }
     }
+
+    public function deletePost(Request $request, int $id): Response
+    {
+        $rows_affected = Db::table('posts')->delete($id);
+
+        if ($rows_affected == 0) {
+            return responseData(1, '数据不存在', null);
+        } else {
+            return responseData(0, '删除成功', null);
+        }
+    }
 }
