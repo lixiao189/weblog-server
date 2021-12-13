@@ -93,11 +93,12 @@ class Post
         // session 信息解析
         $session = $request->session();
         $sender_id = intval($session->get('id'));
+        $isAdministrator = $session->get('administrator') == 1;
 
         $result = Db::table('posts')->where('id', '=', $id)->first();
         if (!isset($result)) {
             return responseData(1, '数据不存在', null);
-        } else if ($result->sender_id !== $sender_id) {
+        } else if ($result->sender_id !== $sender_id && !$isAdministrator) {
             return responseData(2, '只能删除自己的帖子', null);
         }
 
@@ -117,7 +118,7 @@ class Post
         // 解析 session 数据
         $session = $request->session();
         $user_id = intval($session->get('id'));
-        $isAdministrator = $session->get('administrator') == 1; // debug
+        $isAdministrator = $session->get('administrator') == 1;
 
         $result = Db::table('posts')->where('id', '=', $id)->first();
 
