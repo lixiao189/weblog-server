@@ -39,7 +39,9 @@ final class PostsMigration extends AbstractMigration
             ]
         )->addTimestamps( // 添加 created_at 时间戳
             null, false
-        );
+        )->addIndex(['created_at'], [
+            'order' => ['created_at' => 'DESC']
+        ]);;
 
         $table->create();
     }

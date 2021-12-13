@@ -48,7 +48,9 @@ final class CommentsMigration extends AbstractMigration
             ]
         )->addTimestamps(
             null, false
-        );
+        )->addIndex(['created_at'], [
+            'order' => ['created_at' => 'DESC']
+        ]);
 
         $table->create();
     }
