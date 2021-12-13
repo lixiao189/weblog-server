@@ -117,12 +117,13 @@ class Post
         // 解析 session 数据
         $session = $request->session();
         $user_id = intval($session->get('id'));
+        $isAdministrator = $session->get('administrator') == 1; // debug
 
         $result = Db::table('posts')->where('id', '=', $id)->first();
 
         if (!isset($result)) {
             return responseData(1, '帖子不存在', null);
-        } else if ($result->sender_id !== $user_id) {
+        } else if ($result->sender_id !== $user_id && !$isAdministrator) {
             return responseData(2, '只能修改自己的帖子', null);
         }
 
