@@ -50,7 +50,7 @@ class Comment
     function getCommentList(Request $request, int $postID, int $page): Response
     {
         $resultIterator = Db::table('comments')->where('post_id', '=', $postID)
-            ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
+            ->offset(($page - 1) * 20)->limit(20)->orderBy('created_at', 'desc')->get()->getIterator();
 
         $respData = array();
         foreach ($resultIterator as $comment) {

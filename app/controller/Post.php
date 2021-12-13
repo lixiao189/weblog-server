@@ -58,10 +58,11 @@ class Post
         $page_num = intval($page);
 
         if ($body['type'] == 'all') {  // 获取所有的帖子
-            $posts = Db::table('posts')->offset(($page_num - 1) * 20)->limit(20)->get();
+            $posts = Db::table('posts')->orderBy('created_at', 'desc')->offset(($page_num - 1) * 20)->limit(20)->get();
         } else if ($body['type'] == 'user') { // 仅仅获取用户自己的帖子
             $id = $body['id'];
-            $posts = Db::table('posts')->where('sender_id', '=', $id)->offset(($page_num - 1) * 20)->limit(20)->get();
+            $posts = Db::table('posts')->orderBy('created_at', 'desc')->where('sender_id', '=', $id)
+                ->offset(($page_num - 1) * 20)->limit(20)->get();
         }
 
         if (!isset($posts)) { // 因为参数错误没有查询到结果
