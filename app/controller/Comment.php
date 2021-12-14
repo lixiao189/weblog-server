@@ -93,7 +93,7 @@ class Comment
         if (!isset($result)) {
             return responseData(1, '数据不存在', null);
         } else if ($result->sender_id !== $sender_id && !$isAdministrator) {
-            return responseData(2, '只能删除自己的帖子', null);
+            return responseData(2, '只能删除自己的评论', null);
         }
 
         Db::table('comments')->delete($id);
