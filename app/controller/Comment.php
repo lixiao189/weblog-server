@@ -22,11 +22,14 @@ class Comment
         $atID = $body['at_id'];
         $atName = $body['at_name'];
 
-        $result = Db::table('users')->where('id', '=', $atID)->first();
-        if (!isset($result)) {
-            return responseData(1, 'At 用户不存在', null);
-        } else if ($result->username !== $atName) {
-            return responseData(2, 'At 用户和 ID 无法对应', null);
+        // 检测 at_id 和 at_name 信息
+        if (isset($atID) || isset($atName)) {
+            $result = Db::table('users')->where('id', '=', $atID)->first();
+            if (!isset($result)) {
+                return responseData(1, 'At 用户不存在', null);
+            } else if ($result->username !== $atName) {
+                return responseData(2, 'At 用户和 ID 无法对应', null);
+            }
         }
 
         // 解析用户 session
@@ -80,7 +83,8 @@ class Comment
         }
     }
 
-    function deleteComment(Request $request, int $id): Response {
+    function deleteComment(Request $request, int $id): Response
+    {
         // session 信息解析
         $session = $request->session();
         $sender_id = intval($session->get('id'));
