@@ -57,7 +57,7 @@ class Comment
     function getCommentList(Request $request, int $postID, int $page): Response
     {
         $resultIterator = Db::table('comments')->where('post_id', '=', $postID)
-            ->offset(($page - 1) * 20)->limit(20)->orderBy('created_at', 'desc')->get()->getIterator();
+            ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
 
         $respData = array();
         foreach ($resultIterator as $comment) {
@@ -78,5 +78,22 @@ class Comment
         } else {
             return responseData(0, '获取成功', $respData);
         }
+    }
+
+    function deleteComment(Request $request, int $id): Response {
+        // session 信息解析
+        $session = $request->session();
+        $sender_id = intval($session->get('id'));
+        $isAdministrator = $session->get('administrator') == 1;
+        $result = Db::table('comments')->where('id', '=', $id)->first();
+        if (!isset($result)) {
+            return responseData(1, '数据不存在', null);
+        } else if ($result->sender_id !== $sender_id && !$isAdministrator) {
+            return responseData(2, '只能删除自己的帖子', null);
+        }
+
+        Db::table('comments')->delete($id);
+
+        return responseData(0, '删除成功', null);
     }
 }
