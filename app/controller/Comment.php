@@ -57,10 +57,25 @@ class Comment
      * @param int $page
      * @return Response
      */
-    function getCommentList(Request $request, int $postID, int $page): Response
+    function getCommentList(Request $request): Response
     {
-        $resultIterator = Db::table('comments')->where('post_id', '=', $postID)
-            ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
+        // 获取 post 数据
+        $body = json_decode($request->rawBody(), true);
+        $type = $body['type'];
+        $id = intval($body['id']);
+        $page = intval($body['page']);
+
+        if ($type == 'post') {
+            // 获取帖子评论
+            $resultIterator = Db::table('comments')->where('post_id', '=', $id)
+                ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
+        } else if ($type == 'user') {
+            // 获取用户评论
+            $resultIterator = Db::table('comments')->where('sender_id', '=', $id)
+                ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
+        } else {
+            return responseData(1, '参数错误', null);
+        }
 
         $respData = array();
         foreach ($resultIterator as $comment) {

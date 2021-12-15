@@ -37,7 +37,7 @@ Route::group('/api', function () {
         Route::group('/comment', function () {
             Route::post('/create', [app\controller\Comment::class, 'createComment'])->middleware([CheckAuth::class]);
             Route::get('/delete/{id}', [app\controller\Comment::class, 'deleteComment'])->middleware([CheckAuth::class]);
-            Route::get('/{postID}/{page}', [app\controller\Comment::class, 'getCommentList']);
+            Route::post('/list', [app\controller\Comment::class, 'getCommentList']);
         });
     });
 });
