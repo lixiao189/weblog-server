@@ -53,8 +53,6 @@ class Comment
     /**
      * 获取评论列表
      * @param Request $request
-     * @param int $postID
-     * @param int $page
      * @return Response
      */
     function getCommentList(Request $request): Response
