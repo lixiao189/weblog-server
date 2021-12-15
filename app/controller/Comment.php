@@ -71,36 +71,17 @@ class Comment
 
         if ($type == 'post') {
             // 获取帖子评论
-            $resultIterator = Db::table('comments')->where('post_id', '=', $id)
-                ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
+            $comments = Db::table('comments')->where('post_id', '=', $id)
+                ->offset(($page - 1) * 20)->limit(20)->get();
         } else if ($type == 'user') {
             // 获取用户评论
-            $resultIterator = Db::table('comments')->where('sender_id', '=', $id)
-                ->offset(($page - 1) * 20)->limit(20)->get()->getIterator();
+            $comments = Db::table('comments')->where('sender_id', '=', $id)
+                ->offset(($page - 1) * 20)->limit(20)->get();
         } else {
             return responseData(1, '参数错误', null);
         }
 
-        $respData = array();
-        foreach ($resultIterator as $comment) {
-            array_push($respData, [
-                'id' => $comment->id,
-                'post_id' => $comment->post_id,
-                'post_title' => $comment->post_title,
-                'content' => $comment->content,
-                'sender_id' => $comment->sender_id,
-                'sender_name' => $comment->sender_name,
-                'at_id' => $comment->at_id,
-                'at_name' => $comment->at_name,
-                'created_at' => $comment->created_at,
-            ]);
-        }
-
-        if (sizeof($respData) == 0) {
-            return responseData(2, '没有结果', null);
-        } else {
-            return responseData(0, '获取成功', $respData);
-        }
+        return commentListData($comments->getIterator());
     }
 
     function deleteComment(Request $request, int $id): Response

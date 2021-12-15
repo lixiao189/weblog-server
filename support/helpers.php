@@ -272,6 +272,57 @@ function cpu_count()
     return $count;
 }
 
-function NotLoginResponse() : Response {
+function NotLoginResponse(): Response
+{
     return responseData(255, '尚未登录', null);
+}
+
+function NotAdministratorResponse(): Response
+{
+    return responseData(254, '不是管理员', null);
+}
+
+function postListData(ArrayIterator $postIterator): Response
+{
+    $data = array();
+    foreach ($postIterator as $post) {
+        array_push($data, [
+            'id' => $post->id,
+            'sender_id' => $post->sender_id,
+            'sender_name' => $post->sender_name,
+            'title' => $post->title,
+            'content' => mb_substr($post->content, 0, 100, 'utf-8') . (iconv_strlen($post->content) > 100 ? '...' : ''),
+            'created_at' => $post->created_at
+        ]);
+    }
+
+    if (sizeof($data) == 0) {
+        return responseData(2, '没有结果', null);
+    } else {
+        return responseData(0, '获取成功', $data);
+    }
+}
+
+function commentListData(ArrayIterator $commentIterator): Response
+{
+    $respData = array();
+    foreach ($commentIterator as $comment) {
+        array_push($respData, [
+            'id' => $comment->id,
+            'post_id' => $comment->post_id,
+            'post_title' => $comment->post_title,
+            'content' => $comment->content,
+            'sender_id' => $comment->sender_id,
+            'sender_name' => $comment->sender_name,
+            'at_id' => $comment->at_id,
+            'at_name' => $comment->at_name,
+            'created_at' => $comment->created_at,
+        ]);
+    }
+
+    if (sizeof($respData) == 0) {
+        return responseData(2, '没有结果', null);
+    } else {
+        return responseData(0, '获取成功', $respData);
+    }
 }

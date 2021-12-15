@@ -13,6 +13,7 @@
  */
 
 use app\middleware\CheckAuth;
+use app\middleware\CheckPrivilege;
 use Webman\Route;
 
 Route::group('/api', function () {
@@ -35,8 +36,9 @@ Route::group('/api', function () {
 
         // 帖子举报接口
         Route::group('/report', function () {
-            Route::post('/create');
-            Route::post('/list');
+            Route::post('/create', [app\controller\Report::class, 'createReport'])->middleware([CheckAuth::class]);
+            Route::post('/list', [app\controller\Report::class, 'listReport'])->middleware([CheckPrivilege::class]);
+            Route::post('/cancel', [app\controller\Report::class, 'cancelReport'])->middleware([CheckPrivilege::class]);
         });
 
         // 帖子回复接口 API

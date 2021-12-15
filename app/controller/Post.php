@@ -70,23 +70,7 @@ class Post
             return responseData(1, '参数错误', null);
         }
 
-        $data = array();
-        foreach ($posts->getIterator() as $post) {
-            array_push($data, [
-                'id' => $post->id,
-                'sender_id' => $post->sender_id,
-                'sender_name' => $post->sender_name,
-                'title' => $post->title,
-                'content' => mb_substr($post->content, 0, 100, 'utf-8') . (iconv_strlen($post->content) > 100 ? '...' : ''),
-                'created_at' => $post->created_at
-            ]);
-        }
-
-        if (sizeof($data) == 0) {
-            return responseData(2, '没有结果', null);
-        } else {
-            return responseData(0, '获取成功', $data);
-        }
+        return postListData($posts->getIterator());
     }
 
     public function deletePost(Request $request, int $id): Response
