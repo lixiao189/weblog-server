@@ -22,6 +22,7 @@ class Post
             'sender_id' => $sender_id,
             'sender_name' => $sender_name,
             'title' => $title,
+            'is_reported' => false,
             'content' => $content,
         ]]);
 

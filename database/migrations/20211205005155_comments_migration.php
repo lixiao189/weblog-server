@@ -25,6 +25,10 @@ final class CommentsMigration extends AbstractMigration
                 'comment' => '所评论的帖子的 ID'
             ]
         )->addColumn(
+            'post_title', 'string', [
+                'comment' => '所评论的帖子的标题'
+            ]
+        )->addColumn(
             'content', 'string', [
                 'comment' => '帖子的评论内容'
             ]
@@ -45,6 +49,10 @@ final class CommentsMigration extends AbstractMigration
             'at_name', 'string', [
                 'comment' => '被 At 的用户的用户名',
                 'null' => true,
+            ]
+        )->addColumn(
+            'is_reported', 'boolean', [
+                'comment' => '该评论是否被举报'
             ]
         )->addTimestamps(
             null, false

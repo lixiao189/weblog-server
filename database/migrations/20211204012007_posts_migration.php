@@ -37,6 +37,10 @@ final class PostsMigration extends AbstractMigration
                 'comment' => '帖子的内容',
                 'limit' => 1000,
             ]
+        )->addColumn(
+            'is_reported', 'boolean', [
+                'comment' => '该帖子是否被举报',
+            ]
         )->addTimestamps( // 添加 created_at 时间戳
             null, false
         )->addIndex(['created_at'], [

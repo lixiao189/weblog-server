@@ -32,6 +32,10 @@ class Comment
             }
         }
 
+        // 获取帖子标题
+        $result = Db::table('posts')->where('id', '=', $postID)->first();
+        $title = $result->title;
+
         // 解析用户 session
         $session = $request->session();
         $senderID = $session->get('id');
@@ -39,11 +43,13 @@ class Comment
 
         Db::table('comments')->insert([[
             'post_id' => $postID,
+            'post_title' => $title,
             'content' => $content,
             'at_id' => $atID,
             'at_name' => $atName,
             'sender_id' => $senderID,
             'sender_name' => $senderName,
+            'is_reported' => false,
         ]]);
 
         return responseData(0, '创建成功', null);
@@ -80,6 +86,7 @@ class Comment
             array_push($respData, [
                 'id' => $comment->id,
                 'post_id' => $comment->post_id,
+                'post_title' => $comment->post_title,
                 'content' => $comment->content,
                 'sender_id' => $comment->sender_id,
                 'sender_name' => $comment->sender_name,
