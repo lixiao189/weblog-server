@@ -33,6 +33,16 @@ final class UserMigration extends AbstractMigration
             'administrator', 'boolean', [
                 'comment' => '用户身份 0 为普通用户 1 为管理员'
             ]
+        )->addColumn(
+            'followers_num', 'integer', [
+                'comment' => '粉丝人数',
+                'default' => 0,
+            ]
+        )->addColumn(
+            'followed_num', 'integer', [
+                'comment' => '关注了的大佬的人数',
+                'default' => 0,
+            ]
         )->addIndex(
             ['username'],
             ['unique' => true],

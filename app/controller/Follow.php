@@ -25,6 +25,15 @@ class Follow
             'follower_id' => $follower_id,
         ]]);
 
+        // 先添加自己的关注的大佬人数
+        Db::connection()->enableQueryLog();
+        Db::table('users')->where('id', '=', $follower_id)
+            ->update(['followed_num' => Db::raw('followed_num + 1')]);
+
+        // 添加被关注的大佬的跟随者人数
+        Db::table('users')->where('id', '=', $id)
+            ->update(['followers_num' => Db::raw('followers_num + 1')]);
+
         return responseData(0, '关注成功', null);
     }
 
@@ -88,6 +97,12 @@ class Follow
             ['user_id', '=', $id],
             ['follower_id', '=', $follower_id],
         ])->delete();
+
+        // 先减少自己的关注的大佬人数
+        Db::table('users')->where('id', '=', $follower_id)->decrement('followed_num');
+
+        // 减少被关注的大佬的跟随者人数
+        Db::table('users')->where('id', '=', $id)->decrement('followers_num');
 
         return responseData(0, '取消关注成功', null);
     }

@@ -92,7 +92,10 @@ class User
                 'id' => $user->id,
                 'username' => $user->username,
                 'administrator' => $user->administrator == true,
+                'followed_num' => $user->followed_num, // 关注的大佬的数量
+                'followers_num' => $user->followers_num, // 自己的跟随者（粉丝）的数量
             ]);
+
         } else if ($body['type'] == 'other') { // 查询其他用户信息
             $id = $body['id']; // 其他用户的 ID
             $user = Db::table('users')->where('id', '=', $id)->first();
@@ -108,6 +111,8 @@ class User
                 'id' => $user->id,
                 'username' => $user->username,
                 'is_followed' => $isFollowed,
+                'followed_num' => $user->followed_num, // 关注的大佬的数量
+                'followers_num' => $user->followers_num, // 自己的跟随者（粉丝）的数量
             ]);
         } else {
             return responseData(1, '参数错误', null);
@@ -134,7 +139,7 @@ class User
             return responseData(1, '参数错误', null);
 
         Db::table('users')->where('id', '=', $id)->update([
-           'password' => $password,
+            'password' => $password,
         ]);
 
         return responseData(0, '修改成功', null);
