@@ -76,11 +76,12 @@ class User
      */
     public function getInfo(Request $request): Response
     {
+        // TODO: 粉丝数量，关注人数
         $body = json_decode($request->rawBody(), true);
+        $session = $request->session();
 
         if ($body['type'] == 'user') {
             // 如果是查询用户自己的信息 使用 session 查找
-            $session = $request->session();
             $id = $session->get('id');
             if (!isset($id)) // 如果没有登录
                 return NotLoginResponse();
@@ -93,12 +94,20 @@ class User
                 'administrator' => $user->administrator == true,
             ]);
         } else if ($body['type'] == 'other') { // 查询其他用户信息
-            $id = $body['id'];
+            $id = $body['id']; // 其他用户的 ID
             $user = Db::table('users')->where('id', '=', $id)->first();
+            $user_id = $session->get('id'); // 当前用户自己的 ID
+
+            // 获取是否已经关注
+            $isFollowed = Db::table('follow')->where([
+                ['user_id', '=', $id],
+                ['follower_id', '=', $user_id],
+            ])->exists();
 
             return responseData(0, '查询成功', [
                 'id' => $user->id,
                 'username' => $user->username,
+                'is_followed' => $isFollowed,
             ]);
         } else {
             return responseData(1, '参数错误', null);

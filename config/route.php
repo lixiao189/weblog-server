@@ -24,6 +24,12 @@ Route::group('/api', function () {
         Route::post('/info', [app\controller\User::class, 'getInfo']);
         Route::post('/update', [app\controller\User::class, 'update'])->middleware([CheckAuth::class]);
         Route::get('/logout', [app\controller\User::class, 'logout'])->middleware([CheckAuth::class]);
+
+        Route::group('/follow', function () {
+            Route::post('/list', [app\controller\Follow::class, 'getFollowList'])->middleware([CheckAuth::class]);
+            Route::get('/cancel/{id}', [app\controller\Follow::class, 'cancelFollow'])->middleware([CheckAuth::class]);
+            Route::get('/{id}', [app\controller\Follow::class, 'followUser'])->middleware([CheckAuth::class]);
+        });
     });
 
     // 帖子接口 API
