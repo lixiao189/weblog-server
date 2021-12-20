@@ -76,7 +76,6 @@ class User
      */
     public function getInfo(Request $request): Response
     {
-        // TODO: 粉丝数量，关注人数
         $body = json_decode($request->rawBody(), true);
         $session = $request->session();
 
