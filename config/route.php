@@ -26,7 +26,7 @@ Route::group('/api', function () {
         Route::get('/logout', [app\controller\User::class, 'logout'])->middleware([CheckAuth::class]);
 
         Route::group('/follow', function () {
-            Route::post('/list', [app\controller\Follow::class, 'getFollowList'])->middleware([CheckAuth::class]);
+            Route::post('/list', [app\controller\Follow::class, 'getFollowList']);
             Route::get('/cancel/{id}', [app\controller\Follow::class, 'cancelFollow'])->middleware([CheckAuth::class]);
             Route::get('/{id}', [app\controller\Follow::class, 'followUser'])->middleware([CheckAuth::class]);
         });
