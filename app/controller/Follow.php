@@ -57,28 +57,43 @@ class Follow
                 ->join('users', 'users.id', '=', 'follow.follower_id')
                 ->offset(($page - 1) * 20)->limit(20)
                 ->get();
+            $hasNext = Db::table('follow')
+                ->where('user_id', '=', $userID)
+                ->join('users', 'users.id', '=', 'follow.follower_id')
+                ->offset($page * 20)->limit(20)
+                ->count() > 0;
         } else if ($type == 'follow') {
             $result = Db::table('follow')
                 ->where('follower_id', '=', $userID)
                 ->join('users', 'users.id', '=', 'follow.user_id')
                 ->offset(($page - 1) * 20)->limit(20)
                 ->get();
+            $hasNext = Db::table('follow')
+                ->where('follower_id', '=', $userID)
+                ->join('users', 'users.id', '=', 'follow.user_id')
+                ->offset($page * 20)->limit(20)
+                ->count();
         } else {
             return responseData(1, '参数错误', null);
         }
 
-        $resultData = array();
+        $data = array();
         foreach ($result->getIterator() as $user) {
-            array_push($resultData, [
+            array_push($data, [
                 'id' => $user->id,
                 'name' => $user->username,
             ]);
         }
 
-        if (sizeof($resultData) == 0) {
+        $respData = [
+            "has_next" => $hasNext,
+            "list" => $data,
+        ];
+
+        if (sizeof($data) == 0) {
             return responseData(2, '没有结果', null);
         } else {
-            return responseData(0, '获取成功', $resultData);
+            return responseData(0, '获取成功', $respData);
         }
     }
 

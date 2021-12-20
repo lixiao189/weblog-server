@@ -73,15 +73,19 @@ class Comment
             // 获取帖子评论
             $comments = Db::table('comments')->where('post_id', '=', $id)
                 ->offset(($page - 1) * 20)->limit(20)->get();
+            $hasNext = Db::table('comments')->where('post_id', '=', $id)
+                    ->offset($page * 20)->limit(20)->get()->count() > 0;
         } else if ($type == 'user') {
             // 获取用户评论
             $comments = Db::table('comments')->where('sender_id', '=', $id)
                 ->offset(($page - 1) * 20)->limit(20)->get();
+            $hasNext = Db::table('comments')->where('sender_id', '=', $id)
+                ->offset($page * 20)->limit(20)->get()->count() > 0;
         } else {
             return responseData(1, '参数错误', null);
         }
 
-        return commentListData($comments->getIterator());
+        return commentListData($comments->getIterator(), $hasNext);
     }
 
     function deleteComment(Request $request, int $id): Response

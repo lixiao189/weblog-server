@@ -59,18 +59,27 @@ class Post
         $page_num = intval($page);
 
         if ($body['type'] == 'all') {  // 获取所有的帖子
-            $posts = Db::table('posts')->orderBy('created_at', 'desc')->offset(($page_num - 1) * 20)->limit(20)->get();
+            $posts = Db::table('posts')->orderBy('created_at', 'desc')
+                ->offset(($page_num - 1) * 20)->limit(20)->get();
+            $hasNext = Db::table('posts')->orderBy('created_at', 'desc')
+                    ->offset($page_num * 20)->limit(20)->get()->count() > 0;
         } else if ($body['type'] == 'user') { // 仅仅获取用户自己的帖子
             $id = $body['id'];
-            $posts = Db::table('posts')->orderBy('created_at', 'desc')->where('sender_id', '=', $id)
+            $posts = Db::table('posts')->orderBy('created_at', 'desc')
+                ->where('sender_id', '=', $id)
                 ->offset(($page_num - 1) * 20)->limit(20)->get();
+            $hasNext = Db::table('posts')->orderBy('created_at', 'desc')
+                ->where('sender_id', '=', $id)
+                ->offset($page_num * 20)->limit(20)->get()->count() > 0;
+        } else {
+            $hasNext = false;
         }
 
         if (!isset($posts)) { // 因为参数错误没有查询到结果
             return responseData(1, '参数错误', null);
         }
 
-        return postListData($posts->getIterator());
+        return postListData($posts->getIterator(), $hasNext);
     }
 
     public function deletePost(Request $request, int $id): Response

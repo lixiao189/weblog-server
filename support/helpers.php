@@ -12,6 +12,7 @@
  * @license   http://www.opensource.org/licenses/mit-license.php MIT License
  */
 
+use support\Db;
 use support\Request;
 use support\Response;
 use support\Translation;
@@ -282,7 +283,7 @@ function NotAdministratorResponse(): Response
     return responseData(254, '不是管理员', null);
 }
 
-function postListData(ArrayIterator $postIterator): Response
+function postListData(ArrayIterator $postIterator, bool $hasNext): Response
 {
     $data = array();
     foreach ($postIterator as $post) {
@@ -296,18 +297,23 @@ function postListData(ArrayIterator $postIterator): Response
         ]);
     }
 
+    $resultData = [
+        "has_next" => $hasNext,
+        "list" => $data,
+    ];
+
     if (sizeof($data) == 0) {
         return responseData(2, '没有结果', null);
     } else {
-        return responseData(0, '获取成功', $data);
+        return responseData(0, '获取成功', $resultData);
     }
 }
 
-function commentListData(ArrayIterator $commentIterator): Response
+function commentListData(ArrayIterator $commentIterator, bool $hasNext): Response
 {
-    $respData = array();
+    $data = array();
     foreach ($commentIterator as $comment) {
-        array_push($respData, [
+        array_push($data, [
             'id' => $comment->id,
             'post_id' => $comment->post_id,
             'post_title' => $comment->post_title,
@@ -320,9 +326,14 @@ function commentListData(ArrayIterator $commentIterator): Response
         ]);
     }
 
-    if (sizeof($respData) == 0) {
+    $resultData = [
+        "has_next" => $hasNext,
+        "list" => $data,
+    ];
+
+    if (sizeof($data) == 0) {
         return responseData(2, '没有结果', null);
     } else {
-        return responseData(0, '获取成功', $respData);
+        return responseData(0, '获取成功', $resultData);
     }
 }

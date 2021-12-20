@@ -39,13 +39,14 @@ class Report
 
         if ($type == 'post') {
             // 拉取被举报的帖子
-            $posts = Db::table('posts')->orderBy('created_at', 'desc')->where('is_reported', '=', 1)->get();
-            return postListData($posts->getIterator());
+            $posts = Db::table('posts')->orderBy('created_at', 'desc')
+                ->where('is_reported', '=', 1)->get();
+            return postListData($posts->getIterator(), false);
         } else if ($type == 'comment') {
             // 拉取被举报的评论
             $comments = Db::table('comments')->where('is_reported', '=', 1)
                 ->get();
-            return commentListData($comments->getIterator());
+            return commentListData($comments->getIterator(), false);
         } else {
             return responseData(1, '参数错误', null);
         }
