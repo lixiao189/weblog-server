@@ -72,7 +72,7 @@ class Follow
                 ->where('follower_id', '=', $userID)
                 ->join('users', 'users.id', '=', 'follow.user_id')
                 ->offset($page * 20)->limit(20)
-                ->count();
+                ->count() > 0;
         } else {
             return responseData(1, '参数错误', null);
         }
